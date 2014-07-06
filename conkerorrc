@@ -1,0 +1,100 @@
+require("github");
+
+define_key(content_buffer_normal_keymap, '.', 'find-url');
+
+url_completion_use_history = true;
+
+url_remoting_fn = load_url_in_new_buffer;
+
+// define_webjump("bookmark",
+//                function(term) {return term;},
+//                $completer = history_completer($use_history = false,
+//                                               $use_bookmarks = true,
+//                                               $match_required = true),
+//                $description = "Visit a conkeror bookmark");
+
+register_user_stylesheet(
+  "data:text/css,"+
+    escape("#minibuffer, tree.completions, .mode-line { font-family: Inconsolata; font-size: 12pt; }"));
+
+register_user_stylesheet(
+  "data:text/css,"+
+    escape("#minibuffer { color: #FFF; background-color: #000; }"));
+
+register_user_stylesheet(
+    "data:text/css," +
+        escape (".topsearch input { width: 2em; };"));
+
+register_user_stylesheet(
+  "data:text/css,"+
+    escape("@-moz-document domain(conkeror-help) {body { color: #FFF; background-color: #000; }"));
+
+// copy url with C-c u
+interactive("copy-url",
+        "Copy the current buffer's URL to the clipboard",
+        function(I) {
+            var text = I.window.buffers.current.document.location.href;
+            writeToClipboard(text);
+            I.window.minibuffer.message("copied: " + text);
+        }
+);
+define_key(default_global_keymap, "C-c u", "copy-url");
+
+interactive("capture_bookmark",
+	"Copy the current buffer's URL to orgmode (emacs)",
+	function(I) {
+	    var document = I.buffer.document;
+	    var url      = encodeURIComponent(document.location.href);
+	    var title    = encodeURIComponent(document.title);
+	    org_link     = "org-protocol://capture://"+url+"/"+title;
+	    document.location = org_link;
+	}
+)
+define_key(default_global_keymap, "C-c c", "capture_bookmark");
+
+interactive("open_in_eww",
+	"Open the current buffer with eww (emacs)",
+	function(I) {
+	    var document = I.buffer.document;
+	    var url      = encodeURIComponent(document.location.href);
+	    org_link     = "org-protocol://eww://"+document.location.href;
+	    document.location = org_link;
+	}
+)
+define_key(default_global_keymap, "C-c e", "open_in_eww");
+
+function clone_repo(I){
+    var document = I.buffer.document;
+    var url = document.URL;
+    var project = document.URL.match(/(bitbucket|github)\....\/([^/]+\/[^/]+)/);
+    cloneLink = "org-protocol://"+ project[1] +"-clone://" + project[2];
+    document.location = cloneLink;
+}
+
+interactive("github-clone-repo", null, clone_repo );
+interactive("clone-repo", null, clone_repo );
+
+set_protocol_handler("org-protocol", find_file_in_path("/home/toni/.evm/bin/emacsclient"));
+
+function subscribe_feed(I){
+    var found = false;
+    var document= I.buffer.document;
+    var ls=document.getElementsByTagName("link");
+    for(var i=0,l;l=ls[i];i++){
+        var t=l.getAttribute('type');
+        var r=l.getAttribute('rel');
+        if(t&&(t=='application/rss+xml'||t=='application/atom+xml')&&r&&r=='alternate'){
+            var h = l.getAttribute('href');
+            if(h.indexOf('http')!=0){
+                var p = (h.indexOf('/')!=0) ? '/' : document.location.pathname;
+                h = 'http://'+document.location.hostname+p+h;
+            }
+	    subscribeLink = "org-protocol://elfeed://" + h;
+            document.location = subscribeLink;
+            found = true;
+	    break;
+        }}
+    if(!found) I.minibuffer.message('Oops. Can\'t find a feed.');
+};
+
+interactive("subscribe-feed", null, subscribe_feed);

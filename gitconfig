@@ -1,0 +1,50 @@
+[hub]
+	protocol = https
+
+[user]
+	name = Toni Reina
+	email = areina0@gmail.com
+
+[alias]
+        ll      = log --pretty=oneline --abbrev-commit --max-count=15
+        fp      = format-patch --stdout
+        ci      = commit
+        st      = status
+        lg      = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+        log     = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+        l       = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+        rmrb    = "push --delete origin"
+
+[diff]
+	mnemonicprefix = true
+[core]
+	editor = emacsclient
+	autocrlf = false
+	safecrlf = true
+
+[color]
+	ui = auto
+
+[color "diff"]
+       meta = blue bold
+       frag = magenta bold
+       old = red bold
+       new = green bold
+
+[color "branch"]
+       current = yellow reverse
+       local = yellow bold
+       remote = green bold
+       plain = red bold
+
+[color "status"]
+       added = yellow
+       changed = green bold
+       untracked = blue bold
+[push]
+	default = simple
+[github]
+	user = areina
+	oauth-token = "1bb1e24d906a48ae2366f9c394f1b1b11a270318"
+[credential]
+	helper = store
