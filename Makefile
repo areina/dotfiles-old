@@ -11,6 +11,8 @@ shell:
 	mkdir -p ${HOME}/.oh-my-zsh/custom/themes
 	ln -fs $(DOTFILES)/kablaam.zsh-theme ${HOME}/.oh-my-zsh/custom/themes/kablaam.zsh-theme
 	ln -fs $(DOTFILES)/zshrc ${HOME}/.zshrc
+	mkdir -p ${HOME}/.urxvt
+	ln -fs $(DOTFILES)/urxvt-perls ${HOME}/.urxvt/ext
 	ln -fs $(DOTFILES)/Xdefaults ${HOME}/.Xdefaults
 	ln -fs $(DOTFILES)/Xmodmap ${HOME}/.Xmodmap
 	ln -fs $(DOTFILES)/tmux.conf ${HOME}/.tmux.conf
