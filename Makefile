@@ -8,6 +8,8 @@ submodule:
 
 shell:
 	ln -fs $(DOTFILES)/oh-my-zsh ${HOME}/.oh-my-zsh
+	mkdir -p ${HOME}/.oh-my-zsh/custom/themes
+	ln -fs $(DOTFILES)/kablaam.zsh-theme ${HOME}/.oh-my-zsh/custom/themes/kablaam.zsh-theme
 	ln -fs $(DOTFILES)/zshrc ${HOME}/.zshrc
 	ln -fs $(DOTFILES)/Xdefaults ${HOME}/.Xdefaults
 	ln -fs $(DOTFILES)/Xmodmap ${HOME}/.Xmodmap
