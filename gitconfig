@@ -43,8 +43,7 @@
        untracked = blue bold
 [push]
 	default = simple
-[github]
-	user = areina
-	oauth-token = "1bb1e24d906a48ae2366f9c394f1b1b11a270318"
+[include]
+	path = "~/.gitconfig_local" 
 [credential]
 	helper = store
